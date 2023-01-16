@@ -11,7 +11,6 @@ tensorboard-plugin-wit==1.8.1
 tensorflow-addons==0.19.0
 tensorflow-cpu==2.11.0
 tensorflow-estimator==2.11.0
-tensorflow-intel==2.11.0
 tensorflow-io-gcs-filesystem==0.29.0
 torch==1.13.1
 torchaudio==0.13.1
