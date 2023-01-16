@@ -227,7 +227,6 @@ with st.container():
 		st.markdown("4. Meramalkan nilai dataset x_test")
 		st.markdown("5. Mengira skor model")
 	with right_col4:
-		@st.cache(allow_output_mutation=True)
 		def train_model():
 			global x, y, y_test, y_pred, knn, classifier, model_score
 			x = df4.iloc[:, [11,12,13]]
