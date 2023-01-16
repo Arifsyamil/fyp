@@ -12,7 +12,6 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 import numpy as np
 import matplotlib.pyplot as plt
 
-st.cache(ttl = 300, max_entries = 5000)
 #Page header, title
 st.set_page_config(page_title= "Malay Named Entity Recognition (NER) Model", page_icon= ":book:", layout= "wide")
 st.title(":book: Malay Named Entity Recognition (NER) model")
@@ -22,7 +21,7 @@ btn_main = st.button("TEKAN MULA")
 #1 BUTTON for STEP 7: HYPERTUNING MODEL
 #1 BUTTON for STEP 8: ERROR RATE
 #1 BUTTON for FORM PREDICT WORDS
-
+@st.cache(allow_output_mutation=True)
 #LOAD PAGE AND GET TEXT
 with st.container():
 	st.write("---")
