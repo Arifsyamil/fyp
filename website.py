@@ -12,7 +12,7 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 import numpy as np
 import matplotlib.pyplot as plt
 
-@st.cache
+st.cache(ttl = 300, max_entries = 5000)
 #Page header, title
 st.set_page_config(page_title= "Malay Named Entity Recognition (NER) Model", page_icon= ":book:", layout= "wide")
 st.title(":book: Malay Named Entity Recognition (NER) model")
