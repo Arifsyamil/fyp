@@ -32,6 +32,7 @@ with st.container():
 		st.markdown("2. Ekstrak teks daripada laman web Wikipedia")
 		st.markdown("3. Simpan teks ke dalam fail malaytest.txt")
 	with right_col1:
+		@st.cache
 		def find_text():
 			global article, link, page
 			mwiki = wikipediaapi.Wikipedia(language = 'ms', extract_format = wikipediaapi.ExtractFormat.WIKI)
@@ -63,6 +64,7 @@ with st.container():
 		st.markdown("1. Baca teks daripada malaytext.txt")
 		st.markdown("2. Buang tanda baca daripada teks")
 	with right_col2:
+		@st.cache
 		def clean_data():
 			global clean_file
 			with open("malaytext.txt", "r", encoding='utf-8') as r:
@@ -95,6 +97,7 @@ with st.container():
 		st.markdown("2. Menggunakan transformer BERT")
 		st.markdown("3. Menggunakan fungsi predict() bagi mengenal pasti jenis entity bagi setiap perkataan")
 	with right_col3:
+		@st.cache
 		def use_malaya():
 			global malay_pred
 			#model = malaya.entity.transformer(model= 'alxlnet')
@@ -121,6 +124,7 @@ with st.container():
 	st.markdown("3. Mengehadkan jenis entiti kepada LOKASI, MANUSIA, ORGANISASI dan LAIN-LAIN")
 	st.markdown("4. Menukar nilai entiti kepada nilai binary melalui ONEHOTENCODER")
 	st.markdown("4. Menukar nilai bukan bernombor(kata, entiti, SEBELUM, SELEPAS) kepada nilai bernombor melalui LABELENCODER")
+	@st.cache
 	def data_model():
 		global df4 #Start as LABELENCODER
 		df = pd.DataFrame(malay_pred)
@@ -223,6 +227,7 @@ with st.container():
 		st.markdown("4. Meramalkan nilai dataset x_test")
 		st.markdown("5. Mengira skor model")
 	with right_col4:
+		@st.cache
 		def train_model():
 			global x, y, y_test, y_pred, knn, classifier, model_score
 			x = df4.iloc[:, [11,12,13]]
@@ -269,6 +274,7 @@ with st.container():
 	st.markdown("2. Menghasilkan confusion_matrix")
 	st.markdown("3. Menghasilkan classification_report")
 	st.markdown("4. Mengira accuracy_score")
+	@st.cache
 	def evaluate_model():
 		global cm, cr, accuracy
 		y_test1 = y_test.to_numpy().flatten()
@@ -308,6 +314,7 @@ with st.container():
 	st.markdown("2. Mengira nilai accuracy bagi setiap pertambahan nilai k")
 	st.markdown("3. Menghasilkan graf")
 	st.markdown("4. Mengira nilai maksimum accuracy pada nilai k tertentu")
+	@st.cache
 	def hypertune_model():
 		#from sklearn.model_selection import train_test_split
 		x_train, x_test, y_train, y_test = train_test_split(x, y, test_size= 0.2, random_state = 42, stratify = y)
@@ -356,6 +363,7 @@ with st.container():
 	st.markdown("1. Membina model KNN dan MultiOutputClassifier dari nilai k = 1 hingga k = 50")
 	st.markdown("2. Mengira nilai accuracy bagi training_dataset dan testing_dataset pada setiap kenaikan nilai k")
 	st.markdown("3. Menghasilkan 2 graf bagi membandingkan trend graf training_dataset dan testing_dataset")
+	@st.cache
 	def o_v_model():
 		train_scores, test_scores = [], []
 		x_train, x_test, y_train, y_test = train_test_split(x, y, test_size= 0.2, random_state = 42, stratify = y)
@@ -404,6 +412,7 @@ with st.container():
 	st.markdown("1. Membina model KNN dan MultiOutputClassifier dari nilai k = 1 hingga k = 50")
 	st.markdown("2. Mengira nilai error bagi setiap pertambahan nilai k pada model KNN")
 	st.markdown("3. Menghasilkan graf bagi membuat pemerhatian trend graf nilai error")
+	@st.cache
 	def error_rate():
 		error = []
 		counter = [j for j in range(1, 51)]
@@ -434,7 +443,7 @@ with st.container():
 		st.success("#9 ERROR_RATE: Selesai!")
 	else:
 		st.info("Belum ditekan")
-
+@st.cache
 def load_model():
 	article = find_text()
 	clean_file = clean_data()
@@ -461,6 +470,7 @@ with st.container():
 	#st.markdown("4. Bina lajur LSEBELUM, LSELEPAS")
 	#st.markdown("5. Mengehadkan jenis entity kepada LAIN-LAIN, LOKASI, MANUSIA, ORGANISASI")
 	#st.markdown("6. Memasukkan data ke dalam DataFrame")
+	@st.cache
 	def ramal_kata():
 		string = re.sub("[=(),:;.]", "", kata)
 		string1 = string.split(" ")
