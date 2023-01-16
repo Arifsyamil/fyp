@@ -13,7 +13,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 @st.cache
-
 #Page header, title
 st.set_page_config(page_title= "Malay Named Entity Recognition (NER) Model", page_icon= ":book:", layout= "wide")
 st.title(":book: Malay Named Entity Recognition (NER) model")
