@@ -32,7 +32,7 @@ with st.container():
 		st.markdown("2. Ekstrak teks daripada laman web Wikipedia")
 		st.markdown("3. Simpan teks ke dalam fail malaytest.txt")
 	with right_col1:
-		@st.cache(allow_output_mutation=True)
+		@st.cache(suppress_st_warning=True)
 		def find_text():
 			global article, link, check
 			mwiki = wikipediaapi.Wikipedia(language = 'ms', extract_format = wikipediaapi.ExtractFormat.WIKI)
@@ -65,6 +65,7 @@ with st.container():
 		st.markdown("1. Baca teks daripada malaytext.txt")
 		st.markdown("2. Buang tanda baca daripada teks")
 	with right_col2:
+		@st.cache(suppress_st_warning=True)
 		def clean_data():
 			global clean_file
 			with open("malaytext.txt", "r", encoding='utf-8') as r:
@@ -97,6 +98,7 @@ with st.container():
 		st.markdown("2. Menggunakan transformer BERT")
 		st.markdown("3. Menggunakan fungsi predict() bagi mengenal pasti jenis entity bagi setiap perkataan")
 	with right_col3:
+		@st.cache(suppress_st_warning=True)
 		def use_malaya():
 			global malay_pred
 			#model = malaya.entity.transformer(model= 'alxlnet')
@@ -123,6 +125,7 @@ with st.container():
 	st.markdown("3. Mengehadkan jenis entiti kepada LOKASI, MANUSIA, ORGANISASI dan LAIN-LAIN")
 	st.markdown("4. Menukar nilai entiti kepada nilai binary melalui ONEHOTENCODER")
 	st.markdown("4. Menukar nilai bukan bernombor(kata, entiti, SEBELUM, SELEPAS) kepada nilai bernombor melalui LABELENCODER")
+	@st.cache(suppress_st_warning=True)
 	def data_model():
 		global df4 #Start as LABELENCODER
 		df = pd.DataFrame(malay_pred)
@@ -225,6 +228,7 @@ with st.container():
 		st.markdown("4. Meramalkan nilai dataset x_test")
 		st.markdown("5. Mengira skor model")
 	with right_col4:
+		@st.cache(suppress_st_warning=True)
 		def train_model():
 			global x, y, y_test, y_pred, knn, classifier, model_score
 			x = df4.iloc[:, [11,12,13]]
