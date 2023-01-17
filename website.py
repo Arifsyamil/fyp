@@ -32,7 +32,7 @@ with st.container():
 		st.markdown("2. Ekstrak teks daripada laman web Wikipedia")
 		st.markdown("3. Simpan teks ke dalam fail malaytest.txt")
 	with right_col1:
-		@st.cache(suppress_st_warning=True)
+		@st.cache(allow_output_mutation=True, suppress_st_warning=True, ttl=24*3600)
 		def find_text():
 			global article, link, check
 			mwiki = wikipediaapi.Wikipedia(language = 'ms', extract_format = wikipediaapi.ExtractFormat.WIKI)
