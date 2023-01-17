@@ -34,9 +34,10 @@ with st.container():
 	with right_col1:
 		@st.cache(allow_output_mutation=True)
 		def find_text():
-			global article, link, page
+			global article, link, check
 			mwiki = wikipediaapi.Wikipedia(language = 'ms', extract_format = wikipediaapi.ExtractFormat.WIKI)
 			page = mwiki.page("Pemahsyuran Kemerdekaan Tanah Melayu")
+			check = page.exists()
 			link = page.fullurl
 			article = page.text
 			namefile = "malaytext.txt"
@@ -48,7 +49,7 @@ with st.container():
 			return article, page
 		if btn_main:
 			result1 = find_text()
-			st.write("Adakah URL ini wujud? ", page.exists())
+			st.write("Adakah URL ini wujud? ", check)
 			st.write("URL Laman Web: ", link)
 			st.write("TEKS: ", "\n", article[:1000])
 			st.success("#1 FIND_TEXT: Selesai!")
