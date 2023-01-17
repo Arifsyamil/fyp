@@ -106,12 +106,12 @@ with st.container():
 			#van = quantized_model.analyze(clean_file1)
 			#st.table(malay_pred[:15])
 			return malay_pred
-		if btn_main:
-			result3 = use_malaya()
-			st.table(malay_pred[:15])
-			st.success("#3 USE_MALAYA: Selesai!")
-		else:
-			st.info("Belum ditekan")
+		#if btn_main:
+			#result3 = use_malaya()
+			#st.table(malay_pred[:15])
+			#st.success("#3 USE_MALAYA: Selesai!")
+		#else:
+			#st.info("Belum ditekan")
 
 #ORGANISE DATAFRAME MODEL (NO ST.COLUMNS)
 with st.container():
@@ -205,12 +205,12 @@ with st.container():
 		df4['MANUSIA'] = df4['MANUSIA'].astype(int)
 		#st.table(df4.head())
 		return df4
-	if btn_main:
-		result4 = data_model()
-		st.table(df4.head())
-		st.success("#4 DATA_MODEL : Selesai!" )
-	else:
-		st.info("Belum ditekan")
+	#if btn_main:
+		#result4 = data_model()
+		#st.table(df4.head())
+		#st.success("#4 DATA_MODEL : Selesai!" )
+	#else:
+		#st.info("Belum ditekan")
 
 #TRAIN MODEL USING KNN, MULTIOUTPUTCLASSIFIER
 with st.container():
@@ -287,17 +287,17 @@ with st.container():
 		#st.write("Accuracy: ", "\n")
 		#st.text(accuracy)
 		return cm, cr, accuracy
-	if btn_main:
-		result6 = evaluate_model()
-		st.text("Confusion Matrix \n")
-		st.table(cm)
-		st.text("Classification Report \n")
-		st.text(cr)
-		st.write("Accuracy: ", "\n")
-		st.text(accuracy)
-		st.success("#6 EVALUATE_MODEL : Selesai!")
-	else:
-		st.info("Belum ditekan")
+	#if btn_main:
+		#result6 = evaluate_model()
+		#st.text("Confusion Matrix \n")
+		#st.table(cm)
+		#st.text("Classification Report \n")
+		#st.text(cr)
+		#st.write("Accuracy: ", "\n")
+		#st.text(accuracy)
+		#st.success("#6 EVALUATE_MODEL : Selesai!")
+	#else:
+		#st.info("Belum ditekan")
 
 
 #HYPERTUNE MODEL
@@ -343,11 +343,11 @@ with st.container():
 		plt.ylabel("TESTING ACCURACY")
 		st.pyplot(fig1)
 		return scores_list
-	if btn_main:
-		result7 = hypertune_model()
-		st.success("#7 HYPERTUNE_MODEL : Selesai!")
-	else:
-		st.info("Belum ditekan")
+	#if btn_main:
+		#result7 = hypertune_model()
+		#st.success("#7 HYPERTUNE_MODEL : Selesai!")
+	#else:
+		#st.info("Belum ditekan")
 
 #OVERFITTING & UNDERFITTING MODEL, COLLINEARITY
 with st.container():
@@ -391,11 +391,11 @@ with st.container():
 		plt.legend()
 		st.pyplot(fig2)
 		return train_scores, test_scores
-	if btn_main:
-		result8 = o_v_model()
-		st.success("#8 O_V_MODEL : Selesai!")
-	else:
-		st.info("Belum ditekan")
+	#if btn_main:
+		#result8 = o_v_model()
+		#st.success("#8 O_V_MODEL : Selesai!")
+	#else:
+		#st.info("Belum ditekan")
 
 #ERROR RATE
 with st.container():
@@ -430,11 +430,11 @@ with st.container():
 		st.pyplot(fig3)
 		st.write("Minimum error:-", min(error), " at K = ", error.index(min(error))+1)
 		return error
-	if btn_main:
-		result9 = error_rate()
-		st.success("#9 ERROR_RATE: Selesai!")
-	else:
-		st.info("Belum ditekan")
+	#if btn_main:
+		#result9 = error_rate()
+		#st.success("#9 ERROR_RATE: Selesai!")
+	#else:
+		#st.info("Belum ditekan")
 def load_model():
 	article = find_text()
 	clean_file = clean_data()
@@ -461,7 +461,7 @@ with st.container():
 	#st.markdown("4. Bina lajur LSEBELUM, LSELEPAS")
 	#st.markdown("5. Mengehadkan jenis entity kepada LAIN-LAIN, LOKASI, MANUSIA, ORGANISASI")
 	#st.markdown("6. Memasukkan data ke dalam DataFrame")
-	@st.cache(allow_output_mutation=True)
+	@st.cache(suppress_st_warning=True)
 	def ramal_kata():
 		string = re.sub("[=(),:;.]", "", kata)
 		string1 = string.split(" ")
