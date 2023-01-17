@@ -252,15 +252,15 @@ with st.container():
 			#st.write("Skor model KNN: ")
 			#st.text(model_score)
 			return x, y, y_test, y_pred, classifier, model_score
-		if btn_main:
-			result5 = train_model()
-			st.write('Predicted KNN:', "\n")
-			st.table(y_pred)
-			st.write("Skor model KNN: ")
-			st.text(model_score)
-			st.success("#5 TRAIN_MODEL: Selesai!")
-		else:
-			st.info("Belum ditekan")
+		#if btn_main:
+			#result5 = train_model()
+			#st.write('Predicted KNN:', "\n")
+			#st.table(y_pred)
+			#st.write("Skor model KNN: ")
+			#st.text(model_score)
+			#st.success("#5 TRAIN_MODEL: Selesai!")
+		#else:
+			#st.info("Belum ditekan")
 
 #EVALUATE MODEL
 with st.container():
