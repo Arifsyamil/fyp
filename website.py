@@ -106,12 +106,12 @@ with st.container():
 			#van = quantized_model.analyze(clean_file1)
 			#st.table(malay_pred[:15])
 			return malay_pred
-		#if btn_main:
-			#result3 = use_malaya()
-			#st.table(malay_pred[:15])
-			#st.success("#3 USE_MALAYA: Selesai!")
-		#else:
-			#st.info("Belum ditekan")
+		if btn_main:
+			result3 = use_malaya()
+			st.table(malay_pred[:15])
+			st.success("#3 USE_MALAYA: Selesai!")
+		else:
+			st.info("Belum ditekan")
 
 #ORGANISE DATAFRAME MODEL (NO ST.COLUMNS)
 with st.container():
@@ -205,12 +205,12 @@ with st.container():
 		df4['MANUSIA'] = df4['MANUSIA'].astype(int)
 		#st.table(df4.head())
 		return df4
-	#if btn_main:
-		#result4 = data_model()
-		#st.table(df4.head())
-		#st.success("#4 DATA_MODEL : Selesai!" )
-	#else:
-		#st.info("Belum ditekan")
+	if btn_main:
+		result4 = data_model()
+		st.table(df4.head())
+		st.success("#4 DATA_MODEL : Selesai!" )
+	else:
+		st.info("Belum ditekan")
 
 #TRAIN MODEL USING KNN, MULTIOUTPUTCLASSIFIER
 with st.container():
