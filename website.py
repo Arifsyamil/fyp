@@ -106,9 +106,9 @@ with st.container():
 		st.write("Bilangan perkataan: {}".format(patah))
 		df_line = df_pilihan.transpose()
 		st.dataframe(df_line)
-
-new_df = df_line.style.set_properties(**{'background-color': 'white', 'color': 'black'})
-st.dataframe(new_df)
+	
+	new_df = df_line.style.set_properties(**{'background-color': 'white', 'color': 'black'})
+	st.dataframe(new_df)
 
 #df3 = use_malaya(btn_model)
 #df_kata = list(df3['kata'])
