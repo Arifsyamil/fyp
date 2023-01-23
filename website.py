@@ -28,7 +28,7 @@ else:
 st.cache(allow_output_mutation=True)
 def use_malaya(model_name):
 	global df_malaya
-	q_model = malaya.entity.transformer(model = model_name)
+	q_model = malaya.entity.transformer(model = model_name, quantized=True)
 	malay_pred = q_model.predict(kata)
 	#df = st.dataframe(malay_pred)
 	df_malaya = pd.DataFrame(malay_pred, columns = ['kata', 'entiti'])
