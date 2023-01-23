@@ -75,19 +75,18 @@ with st.form(key= 'my_form'):
 	submit_button = st.form_submit_button(label= ":arrow_right: Buat Ramalan")
 
 	if submit_button:
-	    if re.sub(r'\s+','',kata)=='':
-	        st.error('Ruangan teks tidak boleh kosong.')
+		if re.sub(r'\s+','',kata)=='':
+			st.error('Ruangan teks tidak boleh kosong.')
+		elif re.match(r'\A\s*\w+\s*\Z', kata):
+			st.error("Teks atau ayat mestilah sekurang-kurangnya dua patah perkataan.")
+		else:
+			st.markdown("### Hasil Ramalan")
+			if btn_model == "KNN":
+				st.write("USE KNN_MALAYA METHOD")
+			else:
+				st.write("you choose the correct model: ", btn_model)
 
-	    elif re.match(r'\A\s*\w+\s*\Z', kata):
-	        st.error("Teks atau ayat mestilah sekurang-kurangnya dua patah perkataan.")
-	    
-	    else:
-	    	st.markdown("### Hasil Ramalan")
-	    	if btn_model == "KNN":
-	    		st.write("USE KNN_MALAYA METHOD")
-	    	else:
-	    		st.write("you choose the correct model: ", btn_model)
-	st.success("Butang hantar berfungsi!")
+		st.success("Butang hantar berfungsi!")
 
 
 with st.container():
