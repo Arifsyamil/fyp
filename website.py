@@ -189,7 +189,7 @@ def evaluate_model():
 	return cm, cr, accuracy
 
 st.cache(allow_output_mutation=True)
-def use_knn():
+def knn_model():
 	result1 = find_text()
 	#st.write("Adakah URL ini wujud? ", page.exists())
 	#st.write("URL Laman Web: ", link)
@@ -222,7 +222,7 @@ def use_knn():
 
 
 st.cache(allow_output_mutation=True)
-def use_malaya(model_name):
+def malaya_model(model_name):
 	global df_malaya
 	#q_model = malaya.entity.transformer(model = model_name, quantized=True)
 	q_model = malaya.entity.transformer(model = model_name, quantized=True)
@@ -288,7 +288,7 @@ with st.container():
 		st.write("KNN in progress", df1)
 		st.success("DONE use_knn")
 	else:
-		df2 = use_malaya(btn_model)
+		df2 = malaya_model(btn_model)
 		entiti = sorted(df2['entiti'].unique())
 		pilih = st.multiselect('Jenis entiti', entiti, entiti)
 		df_pilihan = df2 [ (df2['entiti'].isin(pilih)) ]
