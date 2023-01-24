@@ -284,7 +284,7 @@ with st.container():
 	st.write("---")
 	st.markdown("### Hasil Ramalan")
 	if btn_model == 'KNN':
-		df1 = use_knn()
+		df1 = knn_model()
 		st.write("KNN in progress", df1)
 		st.success("DONE use_knn")
 	else:
