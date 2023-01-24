@@ -16,17 +16,6 @@ import matplotlib.pyplot as plt
 import os
 import psutil
 
-#Page header, title
-#st.set_page_config(page_title= "Malay Named Entity Recognition (NER) Model", page_icon= ":book:", layout= "wide")
-#st.title(":book: Malay Named Entity Recognition (NER) model")
-#st.markdown("Sila tekan butang di bawah untuk mulakan program")
-
-
-#st.cache(suppress_st_warning=True)
-#def use_knn():
-	#mode = 250
-	#return mode
-
 #LOAD PAGE AND GET TEXT
 st.cache(suppress_st_warning=True)
 def find_text():
@@ -115,7 +104,7 @@ def data_model():
 	le_entity1 = pd.DataFrame(le_entity)
 	df4 = df4.join(le_entity1)
 	df4.columns = ['nombor', 'kata', 'entiti', 'SEBELUM', 'SELEPAS', 'TAGSEBELUM', 'TAGSELEPAS', 'LAIN-LAIN', 'LOKASI', 'MANUSIA', 'ORGANISASI', 'LKATA', 'LSEBELUM', 'LSELEPAS', 'LENTITI']
-
+	
 	df4['LKATA'] = df4['LKATA'].astype(str)
 	df4['LSEBELUM'] = df4['LSEBELUM'].astype(str)
 	df4['LSELEPAS'] = df4['LSELEPAS'].astype(str)
@@ -157,17 +146,11 @@ def evaluate_model():
 st.cache(allow_output_mutation=True)
 def knn_model():
 	result1 = find_text()
-	#st.success("#1 FIND_TEXT: Selesai!")
 	result2 = clean_data()
-	#st.success("#2 CLEAN_DATA: Selesai!")
 	result3 = use_malaya()
-	#st.success("#3 USE_MALAYA: Selesai!")
 	result4 = data_model()
-	#st.success("#4 DATA_MODEL : Selesai!" )
 	result5 = train_model()
-	#st.success("#5 TRAIN_MODEL: Selesai!")
 	result6 = evaluate_model()
-	#st.success("#6 EVALUATE_MODEL : Selesai!")
 	return result1, result2, result3, result4, result5, result6
 
 #PREDICT WORD OUTSIDE DATA
@@ -190,31 +173,25 @@ def ramal_kata(kata):
 	
 	#Train, test model
 	pred_outdata = knn_model()
-	#article, clean_file, malay_pred, df4, x, y, x_train, x_test, y_train, y_test, pred_knn, kelas = use_knn()
 	x_train, x_test, y_train, y_test = train_test_split(x, y, test_size= 0.2, random_state = 42, stratify = y)
 	pred_knn = KNeighborsClassifier(n_neighbors= 3)
-	#pred_knn.fit(x_train, y_train)
 	#"classifier" VARIABLE from "TEST MODEL USING TESTING DATA"
 	kelas = MultiOutputClassifier(pred_knn, n_jobs = -1)
 	kelas.fit(x_train, y_train)
 	hasil = kelas.predict(string2)
-	#st.write("PREDICT MODEL: BERJAYA")
 	#st.write(hasil)
-	#patah = len(kata.split())
-	#st.write("Bilangan perkataan: ", patah)
-	#for z in hasil:
-		#st.write(z)
+	
 	fin = []
 	for z in hasil:
-	  if (z == [1, 0, 0]).all():
-	    fin.append("LOKASI")
-	  elif (z == [0, 1, 0]).all():
-	    fin.append("MANUSIA")
-	  elif (z == [0, 0, 1]).all():
-	    fin.append("ORGANISASI")
-	  else:
-	  	fin.append("LAIN-LAIN")
-
+		if (z == [1, 0, 0]).all():
+			fin.append("LOKASI")
+		elif (z == [0, 1, 0]).all():
+			fin.append("MANUSIA")
+		elif (z == [0, 0, 1]).all():
+			fin.append("ORGANISASI")
+		else:
+			fin.append("LAIN-LAIN")
+			
 	#st.write(fin)
 	global perkata, output
 	perkata = [(key, value) for i, (key, value) in enumerate(zip(string1, fin))]
