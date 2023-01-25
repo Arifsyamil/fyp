@@ -7,5 +7,5 @@ git remote add origin https://github.com/Arifsyamil/fyp.git
 git push -u origin main
 
 
-#Intended for streamlit
+# Intended for streamlit
 streamlit
