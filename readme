@@ -1,3 +1,5 @@
+intended for streamlit
+
 echo "# fyp" >> README.md
 git init
 git add README.md
