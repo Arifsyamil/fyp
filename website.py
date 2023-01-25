@@ -15,8 +15,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import psutil
+import pickle
 from malaya_file import *
-from knn_file import *
 
 #Page header, title
 st.set_page_config(page_title= "Malay Named Entity Recognition (NER) Model", page_icon= ":book:", layout= "wide")
@@ -27,14 +27,62 @@ st.markdown("2. Pilih model untuk melakukan proses pengecaman entiti nama (NER) 
 st.markdown("3. Klik butang 'BUAT RAMALAN' bagi memulakan program")
 st.markdown("4. Paparan bagi setiap kata serta jenis entiti akan dipaparkan pada bahagian 'HASIL RAMALAN'")
 
+#LOAD MODEL FROM KNN_MALAYA.SAV
+st.cache(allow_output_mutation=True)
+def knn_malaya():
+	load_model = pickle.load(open('knn_malaya.sav', 'rb'))
+	return load_model
+
+#CHANGE STRING INTO LABELENCODER DATAFRAME
+#PREDICT WORD OUTSIDE DATA
+st.cache(allow_output_mutation=True)
+def tukar_kata(kata):
+	#global kelas, output
+	global output	
+	string = re.sub("[=(),:;.]", "", kata)
+	string1 = string.split(" ")
+	string2 = pd.DataFrame(string1, columns = ["LKATA"])
+	string2['LSEBELUM'] = string2['LKATA'].shift(1)
+	string2['LSELEPAS'] = string2['LKATA'].shift(-1)
+	string2.fillna("null", inplace=True)
+	#string1
+	#st.table(string1[:10])
+	lbl = LabelEncoder()
+	lbl_sen = lbl.fit_transform(string2['LKATA'])
+	lbl_bef = lbl.fit_transform(string2['LSEBELUM'])
+	lbl_aft = lbl.fit_transform(string2['LSELEPAS'])
+	string2 = pd.DataFrame({'LKATA':lbl_sen, 'LSEBELUM': lbl_bef, 'LSELEPAS' : lbl_aft})
+	#st.dataframe(string2.head())
+	
+	#Using classifier.predict() from load_model from knn_malaya.sav
+	kelas = knn_malaya()
+	hasil = kelas.predict(string2)
+	
+	#Convert array into entities
+	fin = []
+	for z in hasil:
+		if (z == [1, 0, 0]).all():
+			fin.append("LOKASI")
+		elif (z == [0, 1, 0]).all():
+			fin.append("MANUSIA")
+		elif (z == [0, 0, 1]).all():
+			fin.append("ORGANISASI")
+		else:
+			fin.append("LAIN-LAIN")
+	
+	#global perkata, output
+	#perkata = [(key, value) for i, (key, value) in enumerate(zip(string1, fin))]
+	output = pd.DataFrame({"kata" : string1, "entiti" : fin})
+	return output
+	
 #CREATE TEXT FORM
 with st.form(key= 'my_form'):
 	global kata, btn_model, df1, df2
 	kata = st.text_area(label="Sila taip teks atau ayat:", max_chars= 500)
 	
 	btn_model = st.radio("Pilih model untuk pengecaman entiti nama",
-	("KNN", "BERT", "Tiny-BERT", "ALBERT", "Tiny-ALBERT", "XLNET", "ALXLNET", "FASTFORMER", "Tiny-FASTFORMER"))
-	
+		("KNN", "BERT", "Tiny-BERT", "ALBERT", "Tiny-ALBERT", "XLNET", "ALXLNET", "FASTFORMER", "Tiny-FASTFORMER"))
+		
 	submit_button = st.form_submit_button(label= ":arrow_right: Buat Ramalan")
 	
 	if submit_button:
@@ -47,13 +95,14 @@ with st.form(key= 'my_form'):
 		else:
 			if btn_model == "KNN":
 				st.write("Anda pilih model : KNN")
-				#df1 = knn_model()
+				result = knn_malaya()
+				#st.write(load_model)
 				#df2 = ramal_kata(kata)
 			else:
 				st.write("Anda pilih model transformer: ", btn_model)
 				
-			st.success("Butang hantar berfungsi!")
-
+		st.success("Butang hantar berfungsi!")
+		
 with st.container():
 	st.write("---")
 	st.header("Hasil Ramalan")
@@ -64,15 +113,18 @@ with st.container():
 	st.write("Bilangan perkataan : {}".format(patah))
 	st.write("##")
 	if btn_model == 'KNN':
-		df = ramal_kata(kata)
-		df_test = df.copy()
+		df_test = tukar_kata(kata)
+		#data = {'Name': ['Tom', 'nick', 'krish', 'jack'], 'entiti': [20, 21, 19, 18]}
+		#df_test = pd.DataFrame(data)
+		#st.write("LOAD PICKLE IN PROGRESS")
 	else:
 		df_test = malaya_model(btn_model, kata)
-	
-	entiti = sorted(df_test['entiti'].unique())
-	pilih = st.multiselect('Jenis entiti', entiti, entiti)
-	df_pilihan = df_test [ (df_test['entiti'].isin(pilih)) ]
-	st.table(df_pilihan.style.set_properties(**{'background-color': 'white', 'color': 'black'}))
+
+entiti = sorted(df_test['entiti'].unique())
+pilih = st.multiselect('Jenis entiti', entiti, entiti)
+df_pilihan = df_test [ (df_test['entiti'].isin(pilih)) ]
+df_line = df_pilihan.copy()
+st.table(df_line.style.set_properties(**{'background-color': 'white', 'color': 'black'}))
 
 #About model
 with st.expander("About this app", expanded=True):
